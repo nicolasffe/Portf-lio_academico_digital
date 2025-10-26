@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
 
   const novo = { id: projetos.length ? projetos[projetos.length - 1].id + 1 : 1, nome, descricao };
   projetos.push(novo);
-  res.status(201).json(novo);
+  res.redirect('/projetos'); 
 });
 
 // [PUT]
@@ -30,7 +30,7 @@ router.put("/:id", (req, res) => {
   const { nome, descricao } = req.body;
   if (nome) projeto.nome = nome;
   if (descricao) projeto.descricao = descricao;
-  res.json(projeto);
+  res.redirect('/projetos'); 
 });
 
 // [DELETE]
@@ -40,7 +40,7 @@ router.delete("/:id", (req, res) => {
   if (index === -1) return res.status(404).json({ erro: "Projeto não encontrado" });
 
   const removido = projetos.splice(index, 1);
-  res.json({ mensagem: "Projeto removido com sucesso", removido });
+  res.redirect('/projetos'); 
 });
 
 export default router;

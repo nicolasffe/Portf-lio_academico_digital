@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 
 let certificados = [
-  { id: 1, nome: "Introdução à Programação", emissor: "Alura", ano: "2024" },
+  { id: 1, titulo: "Introdução à Programação", emissor: "Alura", ano: "2024" }, 
 ];
 
 // [GET]
@@ -12,12 +12,12 @@ router.get("/", (req, res) => {
 
 // [POST]
 router.post("/", (req, res) => {
-  const { nome, emissor, ano } = req.body;
-  if (!nome || !emissor || !ano) return res.status(400).json({ erro: "Campos obrigatórios" });
+  const { titulo, emissor, ano } = req.body; // <-- CORRIGIDO
+  if (!titulo || !emissor || !ano) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
-  const novo = { id: certificados.length ? certificados[certificados.length - 1].id + 1 : 1, nome, emissor, ano };
+  const novo = { id: certificados.length ? certificados[certificados.length - 1].id + 1 : 1, titulo, emissor, ano };
   certificados.push(novo);
-  res.status(201).json(novo);
+  res.redirect('/certificados'); 
 });
 
 // [PUT]
@@ -26,11 +26,11 @@ router.put("/:id", (req, res) => {
   const cert = certificados.find(c => c.id === parseInt(id));
   if (!cert) return res.status(404).json({ erro: "Certificado não encontrado" });
 
-  const { nome, emissor, ano } = req.body;
-  if (nome) cert.nome = nome;
+  const { titulo, emissor, ano } = req.body; 
+  if (titulo) cert.titulo = titulo; 
   if (emissor) cert.emissor = emissor;
   if (ano) cert.ano = ano;
-  res.json(cert);
+  res.redirect('/certificados'); 
 });
 
 // [DELETE]
@@ -40,7 +40,7 @@ router.delete("/:id", (req, res) => {
   if (index === -1) return res.status(404).json({ erro: "Certificado não encontrado" });
 
   const removido = certificados.splice(index, 1);
-  res.json({ mensagem: "Certificado removido com sucesso", removido });
+  res.redirect('/certificados'); 
 });
 
 export default router;
