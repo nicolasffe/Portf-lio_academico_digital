@@ -1,46 +1,69 @@
 import express from "express";
-const router = express.Router();
+import { PrismaClient } from '@prisma/client'; // <-- Importar o Prisma
 
-let certificados = [
-  { id: 1, titulo: "Introdução à Programação", emissor: "Alura", ano: "2024" }, 
-];
+const router = express.Router();
+const prisma = new PrismaClient(); // <-- Instanciar o Prisma
 
 // [GET]
-router.get("/", (req, res) => {
-  res.render("certificados", { titulo: "Certificados", certificados });
+router.get("/", async (req, res) => { // <-- Adicionar async
+  try {
+    const certificados = await prisma.certificado.findMany();
+    res.render("certificados", { titulo: "Certificados", certificados });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao buscar certificados" });
+  }
 });
 
 // [POST]
-router.post("/", (req, res) => {
-  const { titulo, emissor, ano } = req.body; // <-- CORRIGIDO
+router.post("/", async (req, res) => { // <-- Adicionar async
+  const { titulo, emissor, ano } = req.body;
   if (!titulo || !emissor || !ano) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
-  const novo = { id: certificados.length ? certificados[certificados.length - 1].id + 1 : 1, titulo, emissor, ano };
-  certificados.push(novo);
-  res.redirect('/certificados'); 
+  try {
+    await prisma.certificado.create({
+      data: {
+        titulo: titulo,
+        emissor: emissor,
+        ano: ano
+      }
+    });
+    res.redirect('/certificados');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao adicionar certificado" });
+  }
 });
 
 // [PUT]
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => { // <-- Adicionar async
   const { id } = req.params;
-  const cert = certificados.find(c => c.id === parseInt(id));
-  if (!cert) return res.status(404).json({ erro: "Certificado não encontrado" });
-
   const { titulo, emissor, ano } = req.body; 
-  if (titulo) cert.titulo = titulo; 
-  if (emissor) cert.emissor = emissor;
-  if (ano) cert.ano = ano;
-  res.redirect('/certificados'); 
+
+  try {
+    await prisma.certificado.update({
+      where: { id: parseInt(id) },
+      data: {
+        titulo: titulo,
+        emissor: emissor,
+        ano: ano
+      }
+    });
+    res.redirect('/certificados');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao atualizar certificado" });
+  }
 });
 
 // [DELETE]
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => { // <-- Adicionar async
   const { id } = req.params;
-  const index = certificados.findIndex(c => c.id === parseInt(id));
-  if (index === -1) return res.status(404).json({ erro: "Certificado não encontrado" });
-
-  const removido = certificados.splice(index, 1);
-  res.redirect('/certificados'); 
+  try {
+    await prisma.certificado.delete({
+      where: { id: parseInt(id) }
+    });
+    res.redirect('/certificados');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao deletar certificado" });
+  }
 });
 
 export default router;

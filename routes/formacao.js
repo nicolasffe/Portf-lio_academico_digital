@@ -1,51 +1,69 @@
 import express from "express";
-const router = express.Router();
+import { PrismaClient } from '@prisma/client'; // <-- Importar o Prisma
 
-let formacoes = [
-  { id: 1, curso: "Análise e Desenvolvimento de Sistemas", instituicao: "Fatec", periodo: "2026" }, 
-];
+const router = express.Router();
+const prisma = new PrismaClient(); // <-- Instanciar o Prisma
 
 // [GET]
-router.get("/", (req, res) => {
-  res.render("formacao", { titulo: "Formação Acadêmica", formacoes });
+router.get("/", async (req, res) => { // <-- Adicionar async
+  try {
+    const formacoes = await prisma.formacao.findMany();
+    res.render("formacao", { titulo: "Formação Acadêmica", formacoes });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao buscar formações" });
+  }
 });
 
 // [POST]
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => { // <-- Adicionar async
   const { curso, instituicao, periodo } = req.body; 
   if (!curso || !instituicao || !periodo) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
-  const nova = {
-    id: formacoes.length ? formacoes[formacoes.length - 1].id + 1 : 1,
-    curso,
-    instituicao,
-    periodo
-  };
-  formacoes.push(nova);
-  res.redirect('/formacao'); 
+  try {
+    await prisma.formacao.create({
+      data: {
+        curso: curso,
+        instituicao: instituicao,
+        periodo: periodo
+      }
+    });
+    res.redirect('/formacao');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao adicionar formação" });
+  }
 });
 
 // [PUT]
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => { // <-- Adicionar async
   const { id } = req.params;
-  const formacao = formacoes.find(f => f.id === parseInt(id));
-  if (!formacao) return res.status(404).json({ erro: "Formação não encontrada" });
-
   const { curso, instituicao, periodo } = req.body;
-  if (curso) formacao.curso = curso;
-  if (instituicao) formacao.instituicao = instituicao;
-  if (periodo) formacao.periodo = periodo; 
-  res.redirect('/formacao'); 
+
+  try {
+    await prisma.formacao.update({
+      where: { id: parseInt(id) },
+      data: {
+        curso: curso,
+        instituicao: instituicao,
+        periodo: periodo
+      }
+    });
+    res.redirect('/formacao');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao atualizar formação" });
+  }
 });
 
 // [DELETE]
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => { // <-- Adicionar async
   const { id } = req.params;
-  const index = formacoes.findIndex(f => f.id === parseInt(id));
-  if (index === -1) return res.status(404).json({ erro: "Formação não encontrada" });
-
-  const removida = formacoes.splice(index, 1);
-  res.redirect('/formacao'); 
+  try {
+    await prisma.formacao.delete({
+      where: { id: parseInt(id) }
+    });
+    res.redirect('/formacao');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao deletar formação" });
+  }
 });
 
 export default router;

@@ -1,0 +1,38 @@
+// Este é o seu arquivo de schema do Prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // Pega a URL do arquivo .env
+}
+
+// ---- NOSSOS MODELOS DE DADOS ----
+
+model Projeto {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  descricao String
+}
+
+model Formacao {
+  id          Int     @id @default(autoincrement())
+  curso       String
+  instituicao String
+  periodo     String
+}
+
+model Competencia {
+  id         Int     @id @default(autoincrement())
+  habilidade String
+  descricao  String
+}
+
+model Certificado {
+  id      Int     @id @default(autoincrement())
+  titulo  String
+  emissor String
+  ano     String
+}

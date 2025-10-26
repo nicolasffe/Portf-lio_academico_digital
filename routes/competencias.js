@@ -1,46 +1,67 @@
 import express from "express";
-const router = express.Router();
+import { PrismaClient } from '@prisma/client'; // <-- Importar o Prisma
 
-let competencias = [
-  { id: 1, habilidade: "Java", descricao: "Técnica" }, 
-  { id: 2, habilidade: "Trabalho em equipe", descricao: "Interpessoal" }, 
-];
+const router = express.Router();
+const prisma = new PrismaClient(); // <-- Instanciar o Prisma
 
 // [GET]
-router.get("/", (req, res) => {
-  res.render("competencias", { titulo: "Competências", competencias });
+router.get("/", async (req, res) => { // <-- Adicionar async
+  try {
+    const competencias = await prisma.competencia.findMany();
+    res.render("competencias", { titulo: "Competências", competencias });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao buscar competências" });
+  }
 });
 
 // [POST]
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => { // <-- Adicionar async
   const { habilidade, descricao } = req.body; 
   if (!habilidade || !descricao) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
-  const nova = { id: competencias.length ? competencias[competencias.length - 1].id + 1 : 1, habilidade, descricao }; 
-  competencias.push(nova);
-  res.redirect('/competencias'); 
+  try {
+    await prisma.competencia.create({
+      data: {
+        habilidade: habilidade,
+        descricao: descricao
+      }
+    });
+    res.redirect('/competencias');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao adicionar competência" });
+  }
 });
 
 // [PUT]
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => { // <-- Adicionar async
   const { id } = req.params;
-  const comp = competencias.find(c => c.id === parseInt(id));
-  if (!comp) return res.status(404).json({ erro: "Competência não encontrada" });
-
   const { habilidade, descricao } = req.body; 
-  if (habilidade) comp.habilidade = habilidade; 
-  if (descricao) comp.descricao = descricao; 
-  res.redirect('/competencias'); 
+
+  try {
+    await prisma.competencia.update({
+      where: { id: parseInt(id) },
+      data: {
+        habilidade: habilidade,
+        descricao: descricao
+      }
+    });
+    res.redirect('/competencias');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao atualizar competência" });
+  }
 });
 
 // [DELETE]
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => { // <-- Adicionar async
   const { id } = req.params;
-  const index = competencias.findIndex(c => c.id === parseInt(id));
-  if (index === -1) return res.status(404).json({ erro: "Competência não encontrada" });
-
-  const removida = competencias.splice(index, 1);
-  res.redirect('/competencias'); 
+  try {
+    await prisma.competencia.delete({
+      where: { id: parseInt(id) }
+    });
+    res.redirect('/competencias');
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao deletar competência" });
+  }
 });
 
 export default router;
