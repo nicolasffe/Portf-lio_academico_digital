@@ -1,11 +1,11 @@
 import express from "express";
-import { PrismaClient } from '@prisma/client'; // <-- Importar o Prisma
+import { PrismaClient } from '@prisma/client';
 
 const router = express.Router();
-const prisma = new PrismaClient(); // <-- Instanciar o Prisma
+const prisma = new PrismaClient(); 
 
 // [GET]
-router.get("/", async (req, res) => { // <-- Adicionar async
+router.get("/", async (req, res) => { 
   try {
     const formacoes = await prisma.formacao.findMany();
     res.render("formacao", { titulo: "Formação Acadêmica", formacoes });
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => { // <-- Adicionar async
 });
 
 // [POST]
-router.post("/", async (req, res) => { // <-- Adicionar async
+router.post("/", async (req, res) => { 
   const { curso, instituicao, periodo } = req.body; 
   if (!curso || !instituicao || !periodo) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
@@ -34,7 +34,7 @@ router.post("/", async (req, res) => { // <-- Adicionar async
 });
 
 // [PUT]
-router.put("/:id", async (req, res) => { // <-- Adicionar async
+router.put("/:id", async (req, res) => { 
   const { id } = req.params;
   const { curso, instituicao, periodo } = req.body;
 
@@ -54,7 +54,7 @@ router.put("/:id", async (req, res) => { // <-- Adicionar async
 });
 
 // [DELETE]
-router.delete("/:id", async (req, res) => { // <-- Adicionar async
+router.delete("/:id", async (req, res) => { 
   const { id } = req.params;
   try {
     await prisma.formacao.delete({

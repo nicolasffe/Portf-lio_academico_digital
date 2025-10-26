@@ -1,11 +1,11 @@
 import express from "express";
-import { PrismaClient } from '@prisma/client'; // <-- Importar o Prisma
+import { PrismaClient } from '@prisma/client'; 
 
 const router = express.Router();
-const prisma = new PrismaClient(); // <-- Instanciar o Prisma
+const prisma = new PrismaClient(); 
 
 // [GET]
-router.get("/", async (req, res) => { // <-- Adicionar async
+router.get("/", async (req, res) => { 
   try {
     const competencias = await prisma.competencia.findMany();
     res.render("competencias", { titulo: "Competências", competencias });
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => { // <-- Adicionar async
 });
 
 // [POST]
-router.post("/", async (req, res) => { // <-- Adicionar async
+router.post("/", async (req, res) => { 
   const { habilidade, descricao } = req.body; 
   if (!habilidade || !descricao) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => { // <-- Adicionar async
 });
 
 // [PUT]
-router.put("/:id", async (req, res) => { // <-- Adicionar async
+router.put("/:id", async (req, res) => { 
   const { id } = req.params;
   const { habilidade, descricao } = req.body; 
 
@@ -52,7 +52,7 @@ router.put("/:id", async (req, res) => { // <-- Adicionar async
 });
 
 // [DELETE]
-router.delete("/:id", async (req, res) => { // <-- Adicionar async
+router.delete("/:id", async (req, res) => { 
   const { id } = req.params;
   try {
     await prisma.competencia.delete({
