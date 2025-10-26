@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Portfólio de <%= nome %></title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-</head>
-<body class="bg-dark text-light">
-  <div class="container text-center mt-5">
-    <h1>Olá, eu sou <%= nome %> 👋</h1>
-    <p class="lead"><%= curso %></p>
+<%- include('partials/header') %> <div class="home-container">
+  <img src="/images/profile.jpg" alt="Foto de <%= nome %>" class="profile-pic">
+  <h1>Olá, eu sou <%= nome %> 👋</h1>
+  <p class="lead"><%= curso %></p>
+  <p><%= descricao %></p>
 
-    <hr class="border-light">
-
-    <h3>Navegação</h3>
-    <ul class="list-unstyled">
-      <li><a href="/formacao" class="text-warning">Formação Acadêmica</a></li>
-      <li><a href="/projetos" class="text-warning">Projetos</a></li>
-      <li><a href="/competencias" class="text-warning">Competências</a></li>
-      <li><a href="/certificados" class="text-warning">Certificados</a></li>
-    </ul>
+  <div class="social-links">
+    <a href="<%= github %>" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+    <a href="<%= linkedin %>" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
   </div>
-</body>
-</html>
+</div>
+
+<%- include('partials/footer') %> 

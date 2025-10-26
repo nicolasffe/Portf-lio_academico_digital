@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= locals.titulo || 'Portfólio' %></title>
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a class="nav-brand" href="/">Portfólio Digital</a>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link <%= paginaAtiva === 'inicio' ? 'active' : '' %>" href="/">
+            <i class="fa-solid fa-house"></i> Início
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= paginaAtiva === 'formacao' ? 'active' : '' %>" href="/formacao">
+            <i class="fa-solid fa-graduation-cap"></i> Formação
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= paginaAtiva === 'projetos' ? 'active' : '' %>" href="/projetos">
+            <i class="fa-solid fa-laptop-code"></i> Projetos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= paginaAtiva === 'competencias' ? 'active' : '' %>" href="/competencias">
+            <i class="fa-solid fa-gears"></i> Competências
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= paginaAtiva === 'certificados' ? 'active' : '' %>" href="/certificados">
+            <i class="fa-solid fa-medal"></i> Certificados
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">

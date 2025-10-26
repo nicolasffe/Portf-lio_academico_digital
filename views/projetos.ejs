@@ -1,43 +1,47 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Projetos</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="container">
-    <h1>💻 Projetos</h1>
-    <a href="/" class="btn">🏠 Voltar</a>
+<%- include('partials/header') %>
 
-    <h2>Adicionar Projeto</h2>
-    <form action="/projetos" method="POST">
-      <input type="text" name="nome" placeholder="Nome do projeto" required>
-      <textarea name="descricao" placeholder="Descrição" required></textarea>
-      <button type="submit">Adicionar</button>
-    </form>
+<div class="form-section">
+  <h2><i class="fa-solid fa-plus"></i> Adicionar Novo Projeto</h2>
+  <form action="/projetos" method="POST">
+    <input type="text" name="nome" placeholder="Nome do projeto" required>
+    <textarea name="descricao" placeholder="Descrição" required></textarea>
+    <input type="url" name="linkRepositorio" placeholder="Link do Repositório (opcional)">
+    <button type="submit">Adicionar Projeto</button>
+  </form>
+</div>
 
-    <h2>Projetos Cadastrados</h2>
-    <% if (projetos.length === 0) { %>
-      <p>Nenhum projeto cadastrado.</p>
-    <% } else { %>
-      <% projetos.forEach(p => { %>
-        <div class="card">
-          <h3><%= p.nome %></h3>
-          <p><%= p.descricao %></p>
+<h2><i class="fa-solid fa-laptop-code"></i> Projetos Cadastrados</h2>
+<% if (projetos.length === 0) { %>
+  <p>Nenhum projeto cadastrado.</p>
+<% } else { %>
+  <div class="card-grid">
+    <% projetos.forEach(p => { %>
+      <div class="card">
+        <h3><%= p.nome %></h3>
+        <p><%= p.descricao %></p>
 
-          <form action="/projetos/<%= p.id %>?_method=PUT" method="POST">
-            <input type="text" name="nome" value="<%= p.nome %>">
-            <textarea name="descricao"><%= p.descricao %></textarea>
+        <% if (p.linkRepositorio) { %>
+          <a href="<%= p.linkRepositorio %>" target="_blank" class="btn" style="margin-bottom: 15px;">
+            <i class="fa-brands fa-github"></i> Ver Repositório
+          </a>
+        <% } %>
+
+        <form action="/projetos/<%= p.id %>?_method=PUT" method="POST">
+          <input type="text" name="nome" value="<%= p.nome %>">
+          <textarea name="descricao"><%= p.descricao %></textarea>
+          <input type="url" name="linkRepositorio" placeholder="Link do Repositório" value="<%= p.linkRepositorio || '' %>">
+          
+          <div class="card-actions">
             <button type="submit">✏️ Atualizar</button>
-          </form>
-
+          </form> 
+            
           <form action="/projetos/<%= p.id %>?_method=DELETE" method="POST">
-            <button type="submit">🗑️ Excluir</button>
+            <button type="submit" class="btn-delete">🗑️ Excluir</button>
           </form>
         </div>
-      <% }) %>
-    <% } %>
+      </div>
+    <% }) %>
   </div>
-</body>
-</html>
+<% } %>
+
+<%- include('partials/footer') %>

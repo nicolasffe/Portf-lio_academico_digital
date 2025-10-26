@@ -8,7 +8,11 @@ const prisma = new PrismaClient();
 router.get("/", async (req, res) => { 
   try {
     const competencias = await prisma.competencia.findMany();
-    res.render("competencias", { titulo: "Competências", competencias });
+    res.render("competencias", { 
+      titulo: "Minhas Competências", 
+      competencias,
+      paginaAtiva: "competencias" 
+    });
   } catch (error) {
     res.status(500).json({ erro: "Erro ao buscar competências" });
   }
@@ -16,14 +20,14 @@ router.get("/", async (req, res) => {
 
 // [POST]
 router.post("/", async (req, res) => { 
-  const { habilidade, descricao } = req.body; 
-  if (!habilidade || !descricao) return res.status(400).json({ erro: "Campos obrigatórios" }); 
+  const { habilidade, nivel } = req.body; 
+  if (!habilidade || !nivel) return res.status(400).json({ erro: "Campos obrigatórios" }); 
 
   try {
     await prisma.competencia.create({
       data: {
         habilidade: habilidade,
-        descricao: descricao
+        nivel: nivel 
       }
     });
     res.redirect('/competencias');
@@ -35,14 +39,14 @@ router.post("/", async (req, res) => {
 // [PUT]
 router.put("/:id", async (req, res) => { 
   const { id } = req.params;
-  const { habilidade, descricao } = req.body; 
+  const { habilidade, nivel } = req.body; 
 
   try {
     await prisma.competencia.update({
       where: { id: parseInt(id) },
       data: {
         habilidade: habilidade,
-        descricao: descricao
+        nivel: nivel 
       }
     });
     res.redirect('/competencias');
@@ -51,7 +55,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// [DELETE]
+// [DELETE] 
 router.delete("/:id", async (req, res) => { 
   const { id } = req.params;
   try {

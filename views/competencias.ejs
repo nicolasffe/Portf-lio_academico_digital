@@ -1,43 +1,74 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Competências</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="container">
-    <h1>⚙️ Competências</h1>
-    <a href="/" class="btn">🏠 Voltar</a>
+<%- include('partials/header') %>
 
-    <h2>Adicionar Competência</h2>
-    <form action="/competencias" method="POST">
-      <input type="text" name="habilidade" placeholder="Habilidade (ex: Java, React, SQL)" required>
-      <textarea name="descricao" placeholder="Descrição" required></textarea>
-      <button type="submit">Adicionar</button>
-    </form>
+<div class="form-section">
+  <h2><i class="fa-solid fa-plus"></i> Adicionar Nova Competência</h2>
+  <form action="/competencias" method="POST">
+    <input type="text" name="habilidade" placeholder="Habilidade (ex: Java, React, SQL)" required>
 
-    <h2>Competências Cadastradas</h2>
-    <% if (competencias.length === 0) { %>
-      <p>Nenhuma competência cadastrada.</p>
-    <% } else { %>
-      <% competencias.forEach(c => { %>
-        <div class="card">
-          <h3><%= c.habilidade %></h3>
-          <p><%= c.descricao %></p>
+    <select name="nivel" required>
+      <option value="" disabled selected>-- Selecione o Nível --</option>
+      <option value="Iniciante">Iniciante</option>
+      <option value="Básico">Básico</option>
+      <option value="Intermediário">Intermediário</option>
+      <option value="Avançado">Avançado</option>
+      <option value="Especialista">Especialista</option>
+    </select>
 
-          <form action="/competencias/<%= c.id %>?_method=PUT" method="POST">
-            <input type="text" name="habilidade" value="<%= c.habilidade %>">
-            <textarea name="descricao"><%= c.descricao %></textarea>
-            <button type="submit">✏️ Atualizar</button>
-          </form>
+    <button type="submit">Adicionar Competência</button>
+  </form>
+</div>
 
-          <form action="/competencias/<%= c.id %>?_method=DELETE" method="POST">
-            <button type="submit">🗑️ Excluir</button>
-          </form>
-        </div>
-      <% }) %>
-    <% } %>
-  </div>
-</body>
-</html>
+<h2><i class="fa-solid fa-gears"></i> Competências Cadastradas</h2>
+<% if (competencias.length === 0) { %>
+  <p>Nenhuma competência cadastrada.</p>
+<% } else { %>
+  <div class="card-grid">
+    <% competencias.forEach(c => { %>
+      <%
+        // --- LÓGICA PARA MAPEAR NÍVEL PARA NÚMERO DE ESTRELAS ---
+        let estrelasPreenchidas = 0;
+        switch (c.nivel) {
+          case 'Iniciante': estrelasPreenchidas = 1; break;
+          case 'Básico': estrelasPreenchidas = 2; break;
+          case 'Intermediário': estrelasPreenchidas = 3; break;
+          case 'Avançado': estrelasPreenchidas = 4; break;
+          case 'Especialista': estrelasPreenchidas = 5; break;
+        }
+        const estrelasVazias = 5 - estrelasPreenchidas;
+      %>
+      <div class="card">
+        <h3><%= c.habilidade %></h3>
+
+        <div class="competency-level" title="Nível: <%= c.nivel %>">
+          <% for(let i = 0; i < estrelasPreenchidas; i++) { %>
+            <i class="fa-solid fa-star star-icon filled"></i>
+          <% } %>
+          <% for(let i = 0; i < estrelasVazias; i++) { %>
+            <i class="fa-regular fa-star star-icon"></i>
+          <% } %>
+          <span class="level-text">(<%= c.nivel %>)</span> </div>
+
+        <form action="/competencias/<%= c.id %>?_method=PUT" method="POST" style="margin-top: 20px;">
+          <input type="text" name="habilidade" value="<%= c.habilidade %>">
+
+          <select name="nivel" required>
+            <option value="Iniciante" <%= c.nivel === 'Iniciante' ? 'selected' : '' %>>Iniciante</option>
+            <option value="Básico" <%= c.nivel === 'Básico' ? 'selected' : '' %>>Básico</option>
+            <option value="Intermediário" <%= c.nivel === 'Intermediário' ? 'selected' : '' %>>Intermediário</option>
+            <option value="Avançado" <%= c.nivel === 'Avançado' ? 'selected' : '' %>>Avançado</option>
+            <option value="Especialista" <%= c.nivel === 'Especialista' ? 'selected' : '' %>>Especialista</option>
+          </select>
+
+          <div class="card-actions">
+              <button type="submit">✏️ Atualizar</button>
+            </form>
+
+            <form action="/competencias/<%= c.id %>?_method=DELETE" method="POST">
+              <button type="submit" class="btn-delete">🗑️ Excluir</button>
+            </form>
+          </div>
+
+        </div> <% }) %>
+  </div> <% } %>
+
+<%- include('partials/footer') %>

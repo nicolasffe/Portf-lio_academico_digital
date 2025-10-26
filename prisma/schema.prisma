@@ -6,15 +6,16 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL") // Pega a URL do arquivo .env
+  url      = env("DATABASE_URL") 
 }
 
 // ---- NOSSOS MODELOS DE DADOS ----
 
 model Projeto {
-  id        Int     @id @default(autoincrement())
-  nome      String
-  descricao String
+  id              Int     @id @default(autoincrement())
+  nome            String
+  descricao       String
+  linkRepositorio String? 
 }
 
 model Formacao {
@@ -27,7 +28,7 @@ model Formacao {
 model Competencia {
   id         Int     @id @default(autoincrement())
   habilidade String
-  descricao  String
+  nivel      String  
 }
 
 model Certificado {

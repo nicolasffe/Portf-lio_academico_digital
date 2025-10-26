@@ -1,84 +1,347 @@
-/* ======== ESTILO GLOBAL ======== */
+/* ======== GERAL ======== */
+:root {
+  --cor-fundo: #121212;
+  --cor-fundo-secundaria: #1e1e1e;
+  --cor-card: #2a2a2a;
+  --cor-texto: #f5f5f5;
+  --cor-borda: #555;
+  --cor-ouro: #ffd700;
+  --cor-ouro-hover: #ffec8b;
+}
 
 body {
-  background-color: #121212;
-  color: #f5f5f5;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
   font-family: "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
+  /* Garante que o footer fique no fim */
+  padding-top: 70px; /* Altura da navbar */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Cabeçalhos */
 h1, h2, h3 {
-  color: #ffd700;
+  color: var(--cor-ouro);
   text-align: center;
+  margin-top: 0;
 }
 
-/* Container principal */
+a {
+  color: var(--cor-ouro);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ======== NAVEGAÇÃO (NAVBAR) ======== */
+.navbar {
+  background-color: var(--cor-fundo-secundaria);
+  border-bottom: 2px solid var(--cor-ouro);
+  padding: 0 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--cor-texto);
+}
+.nav-brand:hover {
+  text-decoration: none;
+  color: var(--cor-ouro);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 15px;
+}
+
+.nav-link {
+  color: var(--cor-texto);
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: 0.3s;
+  font-weight: 500;
+}
+.nav-link i {
+  margin-right: 5px;
+}
+.nav-link:hover {
+  background-color: var(--cor-card);
+  text-decoration: none;
+}
+.nav-link.active {
+  background-color: var(--cor-ouro);
+  color: #000;
+  font-weight: bold;
+}
+
+/* ======== CONTAINER PRINCIPAL ======== */
 .container {
-  width: 85%;
-  max-width: 1000px;
+  width: 90%;
+  max-width: 1200px;
   margin: 40px auto;
-  background: #1e1e1e;
-  padding: 25px;
+  background: var(--cor-fundo-secundaria);
+  padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+  flex-grow: 1; /* Faz o container crescer */
 }
 
-/* Botões */
+/* ======== PÁGINA INICIAL (INDEX) ======== */
+.home-container {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.profile-pic {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 4px solid var(--cor-ouro);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.lead {
+  font-size: 1.25rem;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.social-links {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+.social-links a {
+  font-size: 2.5rem; /* Tamanho do ícone */
+  color: var(--cor-texto);
+  transition: 0.3s;
+}
+.social-links a:hover {
+  color: var(--cor-ouro);
+  transform: scale(1.1);
+}
+
+/* ======== BOTÕES ======== */
 button, .btn {
-  background-color: #ffd700;
+  background-color: var(--cor-ouro);
   border: none;
   color: #000;
   padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+  text-decoration: none;
   transition: 0.3s;
+  display: inline-block; /* Para 'a' tags */
 }
 
 button:hover, .btn:hover {
-  background-color: #ffec8b;
-}
-
-/* Formulários */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input, textarea {
-  background-color: #2a2a2a;
-  color: #fff;
-  border: 1px solid #555;
-  padding: 10px;
-  border-radius: 6px;
-  outline: none;
-}
-
-input:focus, textarea:focus {
-  border-color: #ffd700;
-}
-
-/* Listas / Cards */
-.card {
-  background-color: #2a2a2a;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
-}
-
-.card h3 {
-  margin-top: 0;
-}
-
-a {
-  color: #ffd700;
+  background-color: var(--cor-ouro-hover);
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
+/* Botão de Excluir */
+button.btn-delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+button.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* ======== SEÇÃO DE FORMULÁRIO (ADICIONAR) ======== */
+.form-section {
+  background-color: var(--cor-card);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+.form-section h2 {
+  margin-top: 0;
+  border-bottom: 2px solid var(--cor-ouro);
+  padding-bottom: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, textarea {
+  background-color: var(--cor-fundo-secundaria);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+  padding: 12px;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--cor-ouro);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ======== GRADE DE CARDS (LISTAGEM) ======== */
+.card-grid {
+  display: grid;
+  /* Cria colunas responsivas */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: var(--cor-card);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column; /* Organiza conteúdo interno */
+}
+.card h3 {
+  color: var(--cor-ouro-hover);
+  border-bottom: 1px solid var(--cor-borda);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+.card p {
+  flex-grow: 1; /* Faz a descrição ocupar espaço */
+  color: #eee;
+  margin-bottom: 20px;
+}
+
+/* Formulários dentro do card */
+.card form {
+  margin-top: 10px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto; /* Empurra ações para o fim do card */
+}
+
+/* ======== FOOTER ======== */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--cor-fundo-secundaria);
+  color: #888;
+  margin-top: auto; /* Gruda no fim da página */
+  border-top: 1px solid var(--cor-borda);
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 900px) {
+  .nav-menu {
+    display: none; /* Esconde o menu em telas pequenas - JS seria necessário para um 'hamburger' */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+  .card-grid {
+    grid-template-columns: 1fr; /* 1 coluna em telas muito pequenas */
+  }
+}
+
+/* ======== NÍVEL DE COMPETÊNCIA (ESTRELAS) ======== */
+.competency-level {
+  margin-bottom: 15px; /* Espaçamento abaixo das estrelas */
+  display: flex; /* Alinha estrelas e texto */
+  align-items: center;
+  gap: 2px; /* Pequeno espaço entre as estrelas */
+}
+
+.star-icon {
+  font-size: 1.1rem; /* Tamanho das estrelas */
+  color: #ccc; /* Cor das estrelas vazias */
+}
+
+.star-icon.filled {
+  color: var(--cor-ouro); /* Cor das estrelas preenchidas */
+}
+
+.level-text {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-left: 8px; /* Espaço antes do texto do nível */
+}
+
+/* ======== ESTILIZAÇÃO DO SELECT (DROPDOWN) ======== */
+
+select {
+  /* Aparência similar aos inputs */
+  background-color: var(--cor-fundo-secundaria); /* Fundo escuro */
+  color: var(--cor-texto); /* Texto claro */
+  border: 1px solid var(--cor-borda);
+  padding: 12px;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+  cursor: pointer;
+  
+  /* Aparência da seta (pode variar entre navegadores) */
+  appearance: none; /* Remove a aparência padrão do navegador */
+  -webkit-appearance: none; /* Para Safari/Chrome */
+  -moz-appearance: none; /* Para Firefox */
+  
+  /* Adiciona uma seta personalizada usando background */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffd700" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+}
+
+select:focus {
+  border-color: var(--cor-ouro); /* Borda dourada ao focar */
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Estilo básico para as opções (limitado) */
+select option {
+  background-color: var(--cor-card); /* Fundo das opções */
+  color: var(--cor-texto); /* Texto das opções */
+}
+
+/* Remove a seta padrão no Firefox */
+select::-moz-focus-inner {
+  border: 0;
+}
+select::-ms-expand { /* Remove seta no IE/Edge */
+  display: none;
 }

@@ -1,45 +1,41 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Formação</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="container">
-    <h1>🎓 Formação</h1>
-    <a href="/" class="btn">🏠 Voltar</a>
+<%- include('partials/header') %>
 
-    <h2>Adicionar Formação</h2>
-    <form action="/formacao" method="POST">
-      <input type="text" name="curso" placeholder="Curso" required>
-      <input type="text" name="instituicao" placeholder="Instituição" required>
-      <input type="text" name="periodo" placeholder="Período (ex: 2024 - 2026)" required>
-      <button type="submit">Adicionar</button>
-    </form>
+<div class="form-section">
+  <h2><i class="fa-solid fa-plus"></i> Adicionar Nova Formação</h2>
+  <form action="/formacao" method="POST">
+    <input type="text" name="curso" placeholder="Curso" required>
+    <input type="text" name="instituicao" placeholder="Instituição" required>
+    <input type="text" name="periodo" placeholder="Período (ex: 2024 - 2026)" required>
+    <button type="submit">Adicionar Formação</button>
+  </form>
+</div>
 
-    <h2>Formações Cadastradas</h2>
-    <% if (formacoes.length === 0) { %>
-      <p>Nenhuma formação cadastrada.</p>
-    <% } else { %>
-      <% formacoes.forEach(f => { %>
-        <div class="card">
-          <h3><%= f.curso %></h3>
-          <p><%= f.instituicao %> — <%= f.periodo %></p>
+<h2><i class="fa-solid fa-graduation-cap"></i> Formações Cadastradas</h2>
+<% if (formacoes.length === 0) { %>
+  <p>Nenhuma formação cadastrada.</p>
+<% } else { %>
+  <div class="card-grid"> <% formacoes.forEach(f => { %>
+      <div class="card">
+        <h3><%= f.curso %></h3>
+        <p><%= f.instituicao %></p>
+        <p><strong>Período:</strong> <%= f.periodo %></p>
 
-          <form action="/formacao/<%= f.id %>?_method=PUT" method="POST">
-            <input type="text" name="curso" value="<%= f.curso %>">
-            <input type="text" name="instituicao" value="<%= f.instituicao %>">
-            <input type="text" name="periodo" value="<%= f.periodo %>">
+        <form action="/formacao/<%= f.id %>?_method=PUT" method="POST">
+          <input type="text" name="curso" value="<%= f.curso %>">
+          <input type="text" name="instituicao" value="<%= f.instituicao %>">
+          <input type="text" name="periodo" value="<%= f.periodo %>">
+          
+          <div class="card-actions">
             <button type="submit">✏️ Atualizar</button>
           </form>
-
+          
           <form action="/formacao/<%= f.id %>?_method=DELETE" method="POST">
-            <button type="submit">🗑️ Excluir</button>
+            <button type="submit" class="btn-delete">🗑️ Excluir</button>
           </form>
         </div>
-      <% }) %>
-    <% } %>
+      </div>
+    <% }) %>
   </div>
-</body>
-</html>
+<% } %>
+
+<%- include('partials/footer') %>

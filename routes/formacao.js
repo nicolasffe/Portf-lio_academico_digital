@@ -8,7 +8,11 @@ const prisma = new PrismaClient();
 router.get("/", async (req, res) => { 
   try {
     const formacoes = await prisma.formacao.findMany();
-    res.render("formacao", { titulo: "Formação Acadêmica", formacoes });
+    res.render("formacao", { 
+      titulo: "Formação Acadêmica", 
+      formacoes,
+      paginaAtiva: "formacao" // Para o menu
+    });
   } catch (error) {
     res.status(500).json({ erro: "Erro ao buscar formações" });
   }

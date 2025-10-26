@@ -8,7 +8,11 @@ const prisma = new PrismaClient();
 router.get("/", async (req, res) => { 
   try {
     const certificados = await prisma.certificado.findMany();
-    res.render("certificados", { titulo: "Certificados", certificados });
+    res.render("certificados", { 
+      titulo: "Meus Certificados", 
+      certificados,
+      paginaAtiva: "certificados" 
+    });
   } catch (error) {
     res.status(500).json({ erro: "Erro ao buscar certificados" });
   }
