@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificados</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🏅 Certificados</h1>
+    <a href="/" class="btn">🏠 Voltar</a>
+
+    <h2>Adicionar Certificado</h2>
+    <form action="/certificados" method="POST">
+      <input type="text" name="titulo" placeholder="Título do certificado" required>
+      <input type="text" name="emissor" placeholder="Instituição emissora" required>
+      <input type="text" name="ano" placeholder="Ano" required>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Certificados Cadastrados</h2>
+    <% if (certificados.length === 0) { %>
+      <p>Nenhum certificado cadastrado.</p>
+    <% } else { %>
+      <% certificados.forEach(c => { %>
+        <div class="card">
+          <h3><%= c.titulo %></h3>
+          <p><%= c.emissor %> — <%= c.ano %></p>
+
+          <form action="/certificados/<%= c.id %>?_method=PUT" method="POST">
+            <input type="text" name="titulo" value="<%= c.titulo %>">
+            <input type="text" name="emissor" value="<%= c.emissor %>">
+            <input type="text" name="ano" value="<%= c.ano %>">
+            <button type="submit">✏️ Atualizar</button>
+          </form>
+
+          <form action="/certificados/<%= c.id %>?_method=DELETE" method="POST">
+            <button type="submit">🗑️ Excluir</button>
+          </form>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>

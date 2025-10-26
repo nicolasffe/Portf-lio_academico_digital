@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Projetos</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>💻 Projetos</h1>
+    <a href="/" class="btn">🏠 Voltar</a>
+
+    <h2>Adicionar Projeto</h2>
+    <form action="/projetos" method="POST">
+      <input type="text" name="nome" placeholder="Nome do projeto" required>
+      <textarea name="descricao" placeholder="Descrição" required></textarea>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Projetos Cadastrados</h2>
+    <% if (projetos.length === 0) { %>
+      <p>Nenhum projeto cadastrado.</p>
+    <% } else { %>
+      <% projetos.forEach(p => { %>
+        <div class="card">
+          <h3><%= p.nome %></h3>
+          <p><%= p.descricao %></p>
+
+          <form action="/projetos/<%= p.id %>?_method=PUT" method="POST">
+            <input type="text" name="nome" value="<%= p.nome %>">
+            <textarea name="descricao"><%= p.descricao %></textarea>
+            <button type="submit">✏️ Atualizar</button>
+          </form>
+
+          <form action="/projetos/<%= p.id %>?_method=DELETE" method="POST">
+            <button type="submit">🗑️ Excluir</button>
+          </form>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>

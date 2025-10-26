@@ -1,0 +1,84 @@
+/* ======== ESTILO GLOBAL ======== */
+
+body {
+  background-color: #121212;
+  color: #f5f5f5;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cabeçalhos */
+h1, h2, h3 {
+  color: #ffd700;
+  text-align: center;
+}
+
+/* Container principal */
+.container {
+  width: 85%;
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+/* Botões */
+button, .btn {
+  background-color: #ffd700;
+  border: none;
+  color: #000;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover, .btn:hover {
+  background-color: #ffec8b;
+}
+
+/* Formulários */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 10px;
+  border-radius: 6px;
+  outline: none;
+}
+
+input:focus, textarea:focus {
+  border-color: #ffd700;
+}
+
+/* Listas / Cards */
+.card {
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

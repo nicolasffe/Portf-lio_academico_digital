@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Competências</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Competências</h1>
+    <a href="/" class="btn">🏠 Voltar</a>
+
+    <h2>Adicionar Competência</h2>
+    <form action="/competencias" method="POST">
+      <input type="text" name="habilidade" placeholder="Habilidade (ex: Java, React, SQL)" required>
+      <textarea name="descricao" placeholder="Descrição" required></textarea>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Competências Cadastradas</h2>
+    <% if (competencias.length === 0) { %>
+      <p>Nenhuma competência cadastrada.</p>
+    <% } else { %>
+      <% competencias.forEach(c => { %>
+        <div class="card">
+          <h3><%= c.habilidade %></h3>
+          <p><%= c.descricao %></p>
+
+          <form action="/competencias/<%= c.id %>?_method=PUT" method="POST">
+            <input type="text" name="habilidade" value="<%= c.habilidade %>">
+            <textarea name="descricao"><%= c.descricao %></textarea>
+            <button type="submit">✏️ Atualizar</button>
+          </form>
+
+          <form action="/competencias/<%= c.id %>?_method=DELETE" method="POST">
+            <button type="submit">🗑️ Excluir</button>
+          </form>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>
