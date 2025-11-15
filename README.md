@@ -61,6 +61,8 @@ Siga os passos abaixo para configurar e executar o projeto em sua máquina:
 
 3.  **Configure o Banco de Dados MySQL:**
     
+    > 📘 **Para instruções detalhadas, consulte [MYSQL_SETUP.md](MYSQL_SETUP.md)** que contém guia completo de instalação, configuração, solução de problemas e migração.
+    
     a. **Crie um banco de dados MySQL:**
     ```sql
     CREATE DATABASE portfolio_academico CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
