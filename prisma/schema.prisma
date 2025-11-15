@@ -5,35 +5,35 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL") 
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 // ---- NOSSOS MODELOS DE DADOS ----
 
 model Projeto {
   id              Int     @id @default(autoincrement())
-  nome            String
-  descricao       String
-  linkRepositorio String? 
+  nome            String  @db.VarChar(255)
+  descricao       String  @db.Text
+  linkRepositorio String? @db.VarChar(500)
 }
 
 model Formacao {
-  id          Int     @id @default(autoincrement())
-  curso       String
-  instituicao String
-  periodo     String
+  id          Int    @id @default(autoincrement())
+  curso       String @db.VarChar(255)
+  instituicao String @db.VarChar(255)
+  periodo     String @db.VarChar(100)
 }
 
 model Competencia {
-  id         Int     @id @default(autoincrement())
-  habilidade String
-  nivel      String  
+  id         Int    @id @default(autoincrement())
+  habilidade String @db.VarChar(255)
+  nivel      String @db.VarChar(50)
 }
 
 model Certificado {
-  id      Int     @id @default(autoincrement())
-  titulo  String
-  emissor String
-  ano     String
+  id      Int    @id @default(autoincrement())
+  titulo  String @db.VarChar(255)
+  emissor String @db.VarChar(255)
+  ano     String @db.VarChar(10)
 }
