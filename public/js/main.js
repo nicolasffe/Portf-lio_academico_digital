@@ -49,4 +49,43 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     });
   });
+  
+  // Toasts: auto-dismiss and close button
+  const toastsContainer = document.querySelector('.toasts');
+  if (toastsContainer) {
+    toastsContainer.querySelectorAll('.toast').forEach((toast, idx) => {
+      // add close button
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'toast-close';
+      closeBtn.setAttribute('aria-label', 'Fechar');
+      closeBtn.textContent = '×';
+      closeBtn.style.border = 'none';
+      closeBtn.style.background = 'transparent';
+      closeBtn.style.color = 'inherit';
+      closeBtn.style.fontSize = '1.1rem';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.style.marginLeft = '8px';
+      closeBtn.style.float = 'right';
+      closeBtn.addEventListener('click', () => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 220);
+      });
+      toast.appendChild(closeBtn);
+
+      // auto dismiss
+      let timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 220);
+      }, 4500 + idx * 300);
+
+      // pause on hover
+      toast.addEventListener('mouseenter', () => clearTimeout(timeout));
+      toast.addEventListener('mouseleave', () => {
+        timeout = setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 220);
+        }, 1800);
+      });
+    });
+  }
 });

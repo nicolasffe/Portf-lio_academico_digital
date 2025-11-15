@@ -20,7 +20,10 @@
   <nav class="navbar">
     <div class="nav-container">
       <a class="nav-brand" href="/">Portfólio Digital</a>
-      <ul class="nav-menu">
+      <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <ul id="primary-navigation" class="nav-menu">
         <li class="nav-item">
           <a class="nav-link <%= paginaAtiva === 'inicio' ? 'active' : '' %>" href="/">
             <i class="fa-solid fa-house"></i> Início
@@ -51,18 +54,16 @@
   </nav>
 
   <div class="container">
-    <% if (success && success.length > 0) { %>
-      <div class="flash flash-success">
+    <div class="toasts" aria-live="polite" aria-atomic="true">
+      <% if (success && success.length > 0) { %>
         <% success.forEach(msg => { %>
-          <div class="flash-message"><%= msg %></div>
+          <div class="toast"><div class="toast-title">Sucesso</div><div class="toast-body"><%= msg %></div></div>
         <% }) %>
-      </div>
-    <% } %>
+      <% } %>
 
-    <% if (error && error.length > 0) { %>
-      <div class="flash flash-error">
+      <% if (error && error.length > 0) { %>
         <% error.forEach(msg => { %>
-          <div class="flash-message"><%= msg %></div>
+          <div class="toast error"><div class="toast-title">Erro</div><div class="toast-body"><%= msg %></div></div>
         <% }) %>
-      </div>
-    <% } %>
+      <% } %>
+    </div>
