@@ -15,7 +15,8 @@ router.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Erro ao buscar projetos:", error); 
-    res.status(500).json({ erro: "Erro ao buscar projetos" });
+    req.flash('error', 'Erro ao buscar projetos');
+    res.redirect('/');
   }
 });
 
@@ -32,10 +33,12 @@ router.post("/", async (req, res) => {
         linkRepositorio: linkRepositorio || null
       }
     });
+    req.flash('success', 'Projeto adicionado com sucesso!');
     res.redirect('/projetos');
   } catch (error) {
     console.error("Erro ao adicionar projeto:", error);
-    res.status(500).json({ erro: "Erro ao adicionar projeto" });
+    req.flash('error', 'Erro ao adicionar projeto');
+    res.redirect('/projetos');
   }
 });
 
@@ -53,10 +56,12 @@ router.put("/:id", async (req, res) => {
         linkRepositorio: linkRepositorio || null
       }
     });
+    req.flash('success', 'Projeto atualizado com sucesso!');
     res.redirect('/projetos');
   } catch (error) {
     console.error("Erro ao atualizar projeto:", error); 
-    res.status(500).json({ erro: "Erro ao atualizar projeto" });
+    req.flash('error', 'Erro ao atualizar projeto');
+    res.redirect('/projetos');
   }
 });
 
@@ -66,10 +71,12 @@ router.delete("/:id", async (req, res) => {
     await prisma.projeto.delete({
       where: { id: parseInt(id) }
     });
+    req.flash('success', 'Projeto removido com sucesso!');
     res.redirect('/projetos');
   } catch (error) {
     console.error("Erro ao deletar projeto:", error); 
-    res.status(500).json({ erro: "Erro ao deletar projeto" });
+    req.flash('error', 'Erro ao deletar projeto');
+    res.redirect('/projetos');
   }
 });
 

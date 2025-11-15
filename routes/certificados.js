@@ -14,7 +14,9 @@ router.get("/", async (req, res) => {
       paginaAtiva: "certificados" 
     });
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao buscar certificados" });
+    console.error(error);
+    req.flash('error', 'Erro ao buscar certificados');
+    res.redirect('/');
   }
 });
 
@@ -31,9 +33,12 @@ router.post("/", async (req, res) => {
         ano: ano
       }
     });
+    req.flash('success', 'Certificado adicionado com sucesso!');
     res.redirect('/certificados');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao adicionar certificado" });
+    console.error(error);
+    req.flash('error', 'Erro ao adicionar certificado');
+    res.redirect('/certificados');
   }
 });
 
@@ -51,9 +56,12 @@ router.put("/:id", async (req, res) => {
         ano: ano
       }
     });
+    req.flash('success', 'Certificado atualizado com sucesso!');
     res.redirect('/certificados');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao atualizar certificado" });
+    console.error(error);
+    req.flash('error', 'Erro ao atualizar certificado');
+    res.redirect('/certificados');
   }
 });
 
@@ -64,9 +72,12 @@ router.delete("/:id", async (req, res) => {
     await prisma.certificado.delete({
       where: { id: parseInt(id) }
     });
+    req.flash('success', 'Certificado removido com sucesso!');
     res.redirect('/certificados');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao deletar certificado" });
+    console.error(error);
+    req.flash('error', 'Erro ao deletar certificado');
+    res.redirect('/certificados');
   }
 });
 

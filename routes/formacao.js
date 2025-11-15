@@ -14,7 +14,9 @@ router.get("/", async (req, res) => {
       paginaAtiva: "formacao" // Para o menu
     });
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao buscar formações" });
+    console.error(error);
+    req.flash('error', 'Erro ao buscar formações');
+    res.redirect('/');
   }
 });
 
@@ -31,9 +33,12 @@ router.post("/", async (req, res) => {
         periodo: periodo
       }
     });
+    req.flash('success', 'Formação adicionada com sucesso!');
     res.redirect('/formacao');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao adicionar formação" });
+    console.error(error);
+    req.flash('error', 'Erro ao adicionar formação');
+    res.redirect('/formacao');
   }
 });
 
@@ -51,9 +56,12 @@ router.put("/:id", async (req, res) => {
         periodo: periodo
       }
     });
+    req.flash('success', 'Formação atualizada com sucesso!');
     res.redirect('/formacao');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao atualizar formação" });
+    console.error(error);
+    req.flash('error', 'Erro ao atualizar formação');
+    res.redirect('/formacao');
   }
 });
 
@@ -64,9 +72,12 @@ router.delete("/:id", async (req, res) => {
     await prisma.formacao.delete({
       where: { id: parseInt(id) }
     });
+    req.flash('success', 'Formação removida com sucesso!');
     res.redirect('/formacao');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao deletar formação" });
+    console.error(error);
+    req.flash('error', 'Erro ao deletar formação');
+    res.redirect('/formacao');
   }
 });
 

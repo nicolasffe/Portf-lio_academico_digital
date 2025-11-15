@@ -14,7 +14,9 @@ router.get("/", async (req, res) => {
       paginaAtiva: "competencias" 
     });
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao buscar competências" });
+    console.error(error);
+    req.flash('error', 'Erro ao buscar competências');
+    res.redirect('/');
   }
 });
 
@@ -30,9 +32,12 @@ router.post("/", async (req, res) => {
         nivel: nivel 
       }
     });
+    req.flash('success', 'Competência adicionada com sucesso!');
     res.redirect('/competencias');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao adicionar competência" });
+    console.error(error);
+    req.flash('error', 'Erro ao adicionar competência');
+    res.redirect('/competencias');
   }
 });
 
@@ -49,9 +54,12 @@ router.put("/:id", async (req, res) => {
         nivel: nivel 
       }
     });
+    req.flash('success', 'Competência atualizada com sucesso!');
     res.redirect('/competencias');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao atualizar competência" });
+    console.error(error);
+    req.flash('error', 'Erro ao atualizar competência');
+    res.redirect('/competencias');
   }
 });
 
@@ -62,9 +70,12 @@ router.delete("/:id", async (req, res) => {
     await prisma.competencia.delete({
       where: { id: parseInt(id) }
     });
+    req.flash('success', 'Competência removida com sucesso!');
     res.redirect('/competencias');
   } catch (error) {
-    res.status(500).json({ erro: "Erro ao deletar competência" });
+    console.error(error);
+    req.flash('error', 'Erro ao deletar competência');
+    res.redirect('/competencias');
   }
 });
 

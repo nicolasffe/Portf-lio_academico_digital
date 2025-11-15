@@ -30,7 +30,7 @@
           </form>
           
           <form action="/formacao/<%= f.id %>?_method=DELETE" method="POST">
-            <button type="submit" class="btn-delete">🗑️ Excluir</button>
+            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza?');">🗑️ Excluir</button>
           </form>
         </div>
       </div>

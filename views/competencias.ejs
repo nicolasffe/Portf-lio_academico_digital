@@ -64,7 +64,7 @@
             </form>
 
             <form action="/competencias/<%= c.id %>?_method=DELETE" method="POST">
-              <button type="submit" class="btn-delete">🗑️ Excluir</button>
+              <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza?');">🗑️ Excluir</button>
             </form>
           </div>
 
